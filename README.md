@@ -42,9 +42,9 @@ Dataset yang digunakan adalah Book-Crossing Dataset, yang dapat diunduh dari Kag
 
 Dataset ini terdiri dari tiga file CSV:
 
-`Books.csv`: Berisi informasi detail tentang buku. Sebelum pra-pemrosesan, DataFrame ini memiliki 271.360 entri.
-`Users.csv`: Berisi informasi detail tentang pengguna. Sebelum pra-pemrosesan, DataFrame ini memiliki 278.858 entri.
-`Ratings.csv`: Berisi data rating yang diberikan pengguna untuk buku. Sebelum pra-pemrosesan, DataFrame ini memiliki 1.149.780 entri.
+- `Books.csv`: Berisi informasi detail tentang buku. Sebelum pra-pemrosesan, DataFrame ini memiliki 271.360 entri.
+- `Users.csv`: Berisi informasi detail tentang pengguna. Sebelum pra-pemrosesan, DataFrame ini memiliki 278.858 entri.
+- `Ratings.csv`: Berisi data rating yang diberikan pengguna untuk buku. Sebelum pra-pemrosesan, DataFrame ini memiliki 1.149.780 entri.
 
 ### Variabel-variabel pada dataset adalah sebagai berikut:
 
