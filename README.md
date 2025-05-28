@@ -69,6 +69,7 @@ Dataset ini terdiri dari tiga file CSV:
 **Exploratory Data Analysis (EDA)**:
 
 Gambar 1. Distribusi Rating Buku (Plot)
+
 ![Visualisasi Distribusi Rating Buku](./image/Distribusi%20Rating%20Buku.png)
 
 Insight: Visualisasi ini secara jelas menunjukkan bahwa rating 0 harus ditangani secara terpisah atau dihapus untuk fokus pada preferensi eksplisit.
