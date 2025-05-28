@@ -34,6 +34,53 @@ Untuk mencapai tujuan ini, kami akan menggunakan pendekatan Collaborative Filter
 
 ## Data Understanding
 
+Tahap ini bertujuan untuk memahami struktur, karakteristik, dan kualitas data yang akan digunakan serta memuat dataset dan melakukan analisis deskriptif serta eksplorasi data awal.
+
+Dataset yang digunakan adalah Book-Crossing Dataset, yang dapat diunduh dari Kaggle, "Book-Recommendation-Dataset," Kaggle, 2021. [Online]. Tersedia: https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset. 
+
+### Struktur Dataset
+
+Dataset ini terdiri dari tiga file CSV:
+
+`Books.csv`: Berisi informasi detail tentang buku. Sebelum pra-pemrosesan, DataFrame ini memiliki 271.360 entri.
+`Users.csv`: Berisi informasi detail tentang pengguna. Sebelum pra-pemrosesan, DataFrame ini memiliki 278.858 entri.
+`Ratings.csv`: Berisi data rating yang diberikan pengguna untuk buku. Sebelum pra-pemrosesan, DataFrame ini memiliki 1.149.780 entri.
+
+### Variabel-variabel pada dataset adalah sebagai berikut:
+
+1. df_books
+- `ISBN`: International Standard Book Number, pengidentifikasi unik untuk buku.
+- `Book-Title`: Judul buku.
+- `Book-Author`: Nama penulis buku.
+- `Year-Of-Publication`: Tahun publikasi buku.
+- `Publisher`: Penerbit buku.
+- `Image-URL-S, Image-URL-M, Image-URL-L`: URL gambar sampul buku dalam berbagai ukuran (Small, Medium, Large).
+
+2. df_users
+- `User-ID`: Pengidentifikasi unik untuk pengguna.
+- `Location`: Lokasi pengguna (kota, negara bagian, negara).
+- `Age`: Usia pengguna.
+
+3. df_ratings
+- `User-ID`: Pengidentifikasi pengguna yang memberikan rating.
+- `ISBN`: ISBN dari buku yang di-rating.
+- `Book-Rating`: Rating yang diberikan pengguna untuk buku, dalam skala 0-10.
+
+**Exploratory Data Analysis (EDA)**:
+
+## Data Preparation
+
+**Teknik Data Preparation**
+
+**Alasan Tahapan Data Preparation Dilakukan**
+
+## Modeling and Result
+
+## Evaluation
+
+### Metrik Evaluasi yang Digunakan
+
+
 **Referensi**
 
 Dataset: https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset
