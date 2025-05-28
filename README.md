@@ -163,10 +163,8 @@ Pada bagian ini, akan membahas performa model Neural Network (Embedding) yang te
 
 Metrik Evaluasi yang Digunakan: Root Mean Squared Error (RMSE).
 
-Formula: RMSE =
-$$
-\text{RMSE} = \sqrt{ \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2 }
-$$
+Formula: RMSE = sqrt( (1/N) * Σ (yᵢ - ŷᵢ)² )
+
 
 - N : Jumlah rating dalam dataset pengujian.
 - yᵢ : Rating aktual dari rating ke-i.
