@@ -68,6 +68,15 @@ Dataset ini terdiri dari tiga file CSV:
 
 **Exploratory Data Analysis (EDA)**:
 
+Gambar 1. Distribusi Rating Buku (Plot)
+![Visualisasi Distribusi Data](./image/Distribusi%20Variabel.png)
+
+Gambar 2. Distribusi Usia Pengguna (Plot)
+![Visualisasi Korelasi Fitur](./image/Korelasi%20Fitur.png)
+
+Gambar 3. Distribusi Top 10 Penulis Terpopuler (Plot)
+![Visualisasi Korelasi Fitur](./image/Korelasi%20Fitur.png)
+
 ## Data Preparation
 
 **Teknik Data Preparation**
