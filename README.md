@@ -163,7 +163,8 @@ Pada bagian ini, akan membahas performa model Neural Network (Embedding) yang te
 
 Metrik Evaluasi yang Digunakan: Root Mean Squared Error (RMSE).
 
-Formula: RMSE = sqrt( (1/N) * Σ (yᵢ - ŷᵢ)² )
+Formula: RMSE = $$\text{RMSE} = \sqrt{ \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2 }$$
+
 
 
 - N : Jumlah rating dalam dataset pengujian.
@@ -179,7 +180,7 @@ RMSE adalah metrik yang mengukur rata-rata magnitudo error antara nilai yang dip
 Berdasarkan hasil pelatihan dan evaluasi model Neural Network (Embedding):
 RMSE pada validation set (Neural Network): 1.8831.
 
-![Visualisasi Metrik Evaluasi](./image/Distribusi%20Penulis.png)
+![Visualisasi Metrik Evaluasi](./image/Loss%20Function.png)
 
 Nilai RMSE sebesar 1.8831 menunjukkan bahwa model Neural Network (Embedding) kami memiliki rata-rata error prediksi rating sekitar 1.8831 poin pada skala 1-10. Semakin rendah nilai ini, semakin akurat prediksi rating yang diberikan model. Plot Loss History dan RMSE History menunjukkan bahwa model tidak mengalami overfitting yang parah (garis validation mengikuti garis training dengan baik), dan proses pelatihan berhenti pada titik yang optimal berkat EarlyStopping. Ini mengindikasikan bahwa model berhasil belajar dari data pelatihan dan menggeneralisasi dengan baik pada data yang belum pernah dilihat.
 
