@@ -30,7 +30,7 @@ Adapun tujuan yang ingin dicapai dalam proyek ini adalah:
 
 ### Solution Approach
 
-Untuk mencapai tujuan ini, kami akan menggunakan pendekatan Collaborative Filtering dengan implementasi Neural Network (Embedding). Pendekatan ini dipilih karena dataset yang tersedia memiliki data rating eksplisit dari pengguna terhadap buku, yang sangat ideal untuk melatih model collaborative filtering. Model ini akan belajar pola preferensi dari interaksi pengguna-item (rating) dan merekomendasikan buku berdasarkan kesamaan preferensi antar pengguna atau kesamaan karakteristik rating antar buku. Neural Network dengan embedding layer dipilih karena kemampuannya untuk menangkap pola kompleks dan skalabilitas yang baik.
+Untuk mencapai tujuan ini, akan menggunakan pendekatan Collaborative Filtering dengan implementasi Neural Network (Embedding). Pendekatan ini dipilih karena dataset yang tersedia memiliki data rating eksplisit dari pengguna terhadap buku, yang sangat ideal untuk melatih model collaborative filtering. Model ini akan belajar pola preferensi dari interaksi pengguna-item (rating) dan merekomendasikan buku berdasarkan kesamaan preferensi antar pengguna atau kesamaan karakteristik rating antar buku. Neural Network dengan embedding layer dipilih karena kemampuannya untuk menangkap pola kompleks dan skalabilitas yang baik.
 
 ## Data Understanding
 
@@ -69,21 +69,45 @@ Dataset ini terdiri dari tiga file CSV:
 **Exploratory Data Analysis (EDA)**:
 
 Gambar 1. Distribusi Rating Buku (Plot)
-![Visualisasi Distribusi Data](./image/Distribusi%20Rating%20Buku.png)
+![Visualisasi Distribusi Rating Buku](./image/Distribusi%20Rating%20Buku.png)
+
+Insight: Visualisasi ini secara jelas menunjukkan bahwa rating 0 harus ditangani secara terpisah atau dihapus untuk fokus pada preferensi eksplisit.
 
 Gambar 2. Distribusi Usia Pengguna (Plot)
 ![Visualisasi Distribusi Usia Pengguna](./image/Distibusi%20Usia%20Pengguna.png)
 
+Insight: Plot ini mengidentifikasi demografi pengguna utama dan mendukung kebutuhan untuk membersihkan data usia yang tidak valid.
+
 Gambar 3. Distribusi Top 10 Penulis Terpopuler (Plot)
-![Visualisasi Korelasi Fitur](./image/Distribusi%20Penulis.png)
+![Visualisasi Distribusi Top 10 Penulis Terpopuler](./image/Distribusi%20Penulis.png)
+
+Insight: Visualisasi ini menegaskan fenomena "long-tail" dalam data, di mana beberapa penulis sangat populer.
 
 ## Data Preparation
 
+Pada bagian ini, menerapkan berbagai teknik data preparation untuk memastikan data bersih, konsisten, dan siap untuk tahap modeling.
+
 **Teknik Data Preparation**
+
+1. Penanganan Kolom 'Year-Of-Publication' pada df_books: Kolom ini diubah dari tipe object menjadi numerik. Nilai-nilai yang tidak masuk akal (seperti tahun di masa depan atau tahun yang terlalu lampau) diubah menjadi NaN kemudian diisi dengan nilai modus (tahun publikasi yang paling sering muncul).
+2. Penanganan Missing Values pada df_books dan df_users:
+- Untuk df_books, baris dengan missing values pada kolom Book-Author dan Publisher dihapus.
+- Untuk df_users, NaN pada kolom Age diisi dengan median usia. Usia yang tidak masuk akal (< 5 atau > 100 tahun) juga diperbaiki dengan median usia, dan kolom Age dikonversi ke tipe integer.
+3. Penanganan Rating 0 di df_ratings (Filtering Rating Implisit): Semua rating yang bernilai 0 dihapus dari dataset, menghasilkan df_ratings_explicit. Jumlah rating berkurang dari 1.149.780 menjadi 433.671 setelah filter.
+4. Penggabungan DataFrame: df_ratings_explicit digabungkan dengan df_books berdasarkan ISBN, dan hasilnya kemudian digabungkan dengan df_users berdasarkan User-ID, menghasilkan final_df dengan 383.837 entri.
+5. Mengganti Nama Kolom untuk Konsistensi: Kolom User-ID, ISBN, dan Book-Rating di final_df diganti namanya menjadi user_id, item_id, dan rating.
 
 **Alasan Tahapan Data Preparation Dilakukan**
 
+1. Validasi dan Konsistensi Data: Mengonversi Year-Of-Publication ke tipe numerik dan membersihkan nilai-nilai ekstrem memastikan data akurat dan konsisten untuk analisis.
+2. Integritas dan Kualitas Data: Penanganan missing values pada Book-Author, Publisher, dan Age mencegah error pada model dan memastikan bahwa fitur-fitur ini dapat digunakan secara efektif tanpa bias. Median dipilih untuk usia karena robust terhadap outlier.
+3. Fokus pada Preferensi Eksplisit: Penghapusan rating 0 sangat krusial karena model yang dibangun berfokus pada rating eksplisit, yang merupakan indikasi jelas preferensi pengguna. Rating 0 dapat mendistorsi pola preferensi jika tidak dihapus.
+4. Analisis Holistik dan Basis Pemodelan: Penggabungan DataFrame memungkinkan akses data yang komprehensif, yang esensial untuk membangun model Collaborative Filtering yang memerlukan hubungan antara pengguna dan item.
+5. Standardisasi dan Kompatibilitas: Penggantian nama kolom membantu dalam standardisasi penamaan dan keterbacaan kode, serta mempermudah integrasi dengan library machine learning yang mungkin memiliki persyaratan penamaan tertentu.
+
 ## Modeling and Result
+
+Pada tahap ini, membangun sistem rekomendasi menggunakan pendekatan Collaborative Filtering dengan implementasi Neural Network (Embedding) dan akan menyajikan top-N recommendation sebagai output.
 
 ## Evaluation
 
