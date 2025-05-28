@@ -135,34 +135,19 @@ Interpretasi yang Kurang Jelas: Embedding adalah representasi numerik abstrak da
 Model ini terdiri dari User Embedding Layer dan Book Embedding Layer yang masing-masing mengubah ID pengguna dan buku menjadi vektor embedding. Vektor ini kemudian digabungkan melalui dot product dan dilewatkan ke output layer untuk memprediksi rating. Model ini dikompilasi dengan optimizer Adam dan fungsi loss Mean Squared Error (MSE), dengan metrik Root Mean Squared Error (RMSE).
 
 Berikut Arsitektur Model yang digunakan:
+
 Model: "functional"
-┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
-┃ Layer (type)        ┃ Output Shape      ┃    Param # ┃ Connected to      ┃
-┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
-│ user_input          │ (None, 1)         │          0 │ -                 │
-│ (InputLayer)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ book_input          │ (None, 1)         │          0 │ -                 │
-│ (InputLayer)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ user_embedding      │ (None, 1, 50)     │  3,404,550 │ user_input[0][0]  │
-│ (Embedding)         │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ book_embedding      │ (None, 1, 50)     │  7,491,550 │ book_input[0][0]  │
-│ (Embedding)         │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ user_flatten        │ (None, 50)        │          0 │ user_embedding[0… │
-│ (Flatten)           │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ book_flatten        │ (None, 50)        │          0 │ book_embedding[0… │
-│ (Flatten)           │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ dot_product (Dot)   │ (None, 1)         │          0 │ user_flatten[0][… │
-│                     │                   │            │ book_flatten[0][… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ output_rating       │ (None, 1)         │          2 │ dot_product[0][0] │
-│ (Dense)             │                   │            │                   │
-└─────────────────────┴───────────────────┴────────────┴───────────────────┘
+| Layer (type)        | Output Shape  | Param #    | Connected to        |
+|---------------------|---------------|------------|----------------------|
+| user_input (Input)  | (None, 1)     | 0          | -                    |
+| book_input (Input)  | (None, 1)     | 0          | -                    |
+| user_embedding      | (None, 1, 50) | 3,404,550  | user_input[0][0]     |
+| book_embedding      | (None, 1, 50) | 7,491,550  | book_input[0][0]     |
+| user_flatten        | (None, 50)    | 0          | user_embedding       |
+| book_flatten        | (None, 50)    | 0          | book_embedding       |
+| dot_product (Dot)   | (None, 1)     | 0          | user_flatten, book_flatten |
+| output_rating (Dense)| (None, 1)    | 2          | dot_product          |
+
  Total params: 10,896,102 (41.57 MB)
  Trainable params: 10,896,102 (41.57 MB)
  Non-trainable params: 0 (0.00 B)
