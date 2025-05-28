@@ -110,6 +110,63 @@ Pada bagian ini, menerapkan berbagai teknik data preparation untuk memastikan da
 
 Pada tahap ini, membangun sistem rekomendasi menggunakan pendekatan Collaborative Filtering dengan implementasi Neural Network (Embedding) dan akan menyajikan top-N recommendation sebagai output.
 
+1. Data Encoding dan Pembagian Dataset
+
+Sebelum membangun model, kami melakukan encoding pada ID pengguna (user_id) dan ID buku (item_id) ke dalam bentuk numerik yang berurutan. Ini diperlukan karena model Neural Network dengan embedding layer memerlukan input ID yang terindeks. Setelah itu, dataset dibagi menjadi training set (307.069 sampel) dan validation set (76.768 sampel) untuk melatih dan mengevaluasi model secara objektif.
+
+2. Model Collaborative Filtering: Neural Network (Embedding)
+
+Kami membangun model Collaborative Filtering menggunakan arsitektur neural network sederhana dengan embedding layer. Model ini mempelajari representasi (embedding) untuk setiap pengguna dan buku, kemudian menggunakan dot product dari embedding ini untuk memprediksi rating.
+
+3. Kelebihan Pendekatan Neural Network (Embedding):
+
+Mampu Menangkap Pola Preferensi Kompleks: Model neural network dengan embedding dapat mempelajari representasi laten pengguna dan item yang menangkap hubungan non-linear dan kompleks dari data rating, yang mungkin tidak dapat ditangkap oleh metode linear.
+Fleksibilitas dan Ekstensibilitas: Arsitektur neural network sangat fleksibel, memungkinkan penambahan fitur-fitur lain (misalnya, metadata buku seperti genre atau deskripsi, informasi demografi pengguna) di masa depan untuk membangun model hybrid yang lebih canggih.
+Skalabilitas yang Baik: Dengan embedding, representasi pengguna dan item disimpan dalam vektor padat, yang lebih efisien secara memori dan komputasi dibandingkan dengan matriks rating yang sangat sparse pada skala besar.
+
+4. Kekurangan Pendekatan Neural Network (Embedding):
+
+Masalah Cold Start: Sulit memberikan rekomendasi untuk pengguna baru (belum memiliki riwayat rating) atau buku baru (belum di-rating oleh pengguna) karena embedding mereka belum dapat dipelajari dengan baik.
+Membutuhkan Data Interaksi yang Cukup: Untuk mempelajari embedding yang berkualitas, model membutuhkan sejumlah besar interaksi (rating) dari pengguna dan item.
+Komputasi dan Waktu Pelatihan yang Lebih Tinggi: Melatih model neural network (terutama dengan banyak epoch dan embedding yang besar) dapat memakan waktu dan resource komputasi yang signifikan.
+Interpretasi yang Kurang Jelas: Embedding adalah representasi numerik abstrak dan seringkali sulit untuk diinterpretasikan secara langsung.
+
+5. Arsitektur Model:
+Model ini terdiri dari User Embedding Layer dan Book Embedding Layer yang masing-masing mengubah ID pengguna dan buku menjadi vektor embedding. Vektor ini kemudian digabungkan melalui dot product dan dilewatkan ke output layer untuk memprediksi rating. Model ini dikompilasi dengan optimizer Adam dan fungsi loss Mean Squared Error (MSE), dengan metrik Root Mean Squared Error (RMSE).
+
+Berikut Arsitektur Model yang digunakan:
+Model: "functional"
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)        ┃ Output Shape      ┃    Param # ┃ Connected to      ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ user_input          │ (None, 1)         │          0 │ -                 │
+│ (InputLayer)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ book_input          │ (None, 1)         │          0 │ -                 │
+│ (InputLayer)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ user_embedding      │ (None, 1, 50)     │  3,404,550 │ user_input[0][0]  │
+│ (Embedding)         │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ book_embedding      │ (None, 1, 50)     │  7,491,550 │ book_input[0][0]  │
+│ (Embedding)         │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ user_flatten        │ (None, 50)        │          0 │ user_embedding[0… │
+│ (Flatten)           │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ book_flatten        │ (None, 50)        │          0 │ book_embedding[0… │
+│ (Flatten)           │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ dot_product (Dot)   │ (None, 1)         │          0 │ user_flatten[0][… │
+│                     │                   │            │ book_flatten[0][… │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ output_rating       │ (None, 1)         │          2 │ dot_product[0][0] │
+│ (Dense)             │                   │            │                   │
+└─────────────────────┴───────────────────┴────────────┴───────────────────┘
+ Total params: 10,896,102 (41.57 MB)
+ Trainable params: 10,896,102 (41.57 MB)
+ Non-trainable params: 0 (0.00 B)
+ 
 ## Evaluation
 
 ### Metrik Evaluasi yang Digunakan
