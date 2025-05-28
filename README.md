@@ -158,7 +158,7 @@ Model: "functional"
 6. Hasil Top-N Recommendation
 Untuk mendemonstrasikan sistem rekomendasi, kami memilih seorang pengguna secara acak (contoh User-ID: 243360) dan mencari buku-buku yang belum pernah di-rating oleh pengguna tersebut. Model kemudian memprediksi rating untuk buku-buku ini, dan kami menampilkan 10 buku dengan rating prediksi tertinggi sebagai rekomendasi.
 
-![Visualisasi Metrik Evaluasi](./image/Loss%20Function.png)
+![Visualisasi Metrik Evaluasi](./image/Top-N%20Recommendation.png)
 
 Insight: Hasil ini menunjukkan bahwa model berhasil menghasilkan rekomendasi buku dengan predicted rating yang tinggi (misalnya, berkisar antara 9.5 hingga 10.3), konsisten dengan kecenderungan pengguna yang suka memberikan rating tinggi pada buku yang sudah dibacanya (yang memiliki rating aktual 8.0 hingga 9.0). Rekomendasi ini bersifat personal dan berpotensi meningkatkan kepuasan pengguna.
  
