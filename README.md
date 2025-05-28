@@ -137,6 +137,7 @@ Model ini terdiri dari User Embedding Layer dan Book Embedding Layer yang masing
 Berikut Arsitektur Model yang digunakan:
 
 Model: "functional"
+
 | Layer (type)        | Output Shape  | Param #    | Connected to        |
 |---------------------|---------------|------------|----------------------|
 | user_input (Input)  | (None, 1)     | 0          | -                    |
@@ -149,13 +150,40 @@ Model: "functional"
 | output_rating (Dense)| (None, 1)    | 2          | dot_product          |
 
  Total params: 10,896,102 (41.57 MB)
+ 
  Trainable params: 10,896,102 (41.57 MB)
+ 
  Non-trainable params: 0 (0.00 B)
  
 ## Evaluation
 
+Pada bagian ini, akan membahas performa model Neural Network (Embedding) yang telah dibangun berdasarkan metrik yang digunakan.
+
 ### Metrik Evaluasi yang Digunakan
 
+Metrik Evaluasi yang Digunakan: Root Mean Squared Error (RMSE).
+
+Formula: RMSE =
+$$
+\text{RMSE} = \sqrt{ \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2 }
+$$
+
+- N : Jumlah rating dalam dataset pengujian.
+- yᵢ : Rating aktual dari rating ke-i.
+- ŷᵢ : Rating prediksi dari rating ke-i.
+
+Cara Metrik Bekerja:
+
+RMSE adalah metrik yang mengukur rata-rata magnitudo error antara nilai yang diprediksi dan nilai aktual. Dengan mengkuadratkan perbedaan, metrik ini memberikan bobot yang lebih besar pada error yang lebih besar (penalti terhadap prediksi yang sangat meleset). Akar kuadrat kemudian diambil untuk mengembalikan unit ke skala asli dari target (rating). Dalam konteks sistem rekomendasi berbasis rating eksplisit, RMSE adalah metrik yang sangat relevan karena secara langsung mengukur seberapa dekat prediksi rating kita dengan rating aktual yang diberikan pengguna. Semakin rendah nilai RMSE, semakin baik model dalam memprediksi rating yang akurat.
+
+**Hasil Proyek Berdasarkan Metrik Evaluasi**
+
+Berdasarkan hasil pelatihan dan evaluasi model Neural Network (Embedding):
+RMSE pada validation set (Neural Network): 1.8831.
+
+![Visualisasi Metrik Evaluasi](./image/Distribusi%20Penulis.png)
+
+Nilai RMSE sebesar 1.8831 menunjukkan bahwa model Neural Network (Embedding) kami memiliki rata-rata error prediksi rating sekitar 1.8831 poin pada skala 1-10. Semakin rendah nilai ini, semakin akurat prediksi rating yang diberikan model. Plot Loss History dan RMSE History menunjukkan bahwa model tidak mengalami overfitting yang parah (garis validation mengikuti garis training dengan baik), dan proses pelatihan berhenti pada titik yang optimal berkat EarlyStopping. Ini mengindikasikan bahwa model berhasil belajar dari data pelatihan dan menggeneralisasi dengan baik pada data yang belum pernah dilihat.
 
 **Referensi**
 
