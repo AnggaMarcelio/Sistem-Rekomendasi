@@ -154,6 +154,13 @@ Model: "functional"
  Trainable params: 10,896,102 (41.57 MB)
  
  Non-trainable params: 0 (0.00 B)
+
+6. Hasil Top-N Recommendation
+Untuk mendemonstrasikan sistem rekomendasi, kami memilih seorang pengguna secara acak (contoh User-ID: 243360) dan mencari buku-buku yang belum pernah di-rating oleh pengguna tersebut. Model kemudian memprediksi rating untuk buku-buku ini, dan kami menampilkan 10 buku dengan rating prediksi tertinggi sebagai rekomendasi.
+
+![Visualisasi Metrik Evaluasi](./image/Loss%20Function.png)
+
+Insight: Hasil ini menunjukkan bahwa model berhasil menghasilkan rekomendasi buku dengan predicted rating yang tinggi (misalnya, berkisar antara 9.5 hingga 10.3), konsisten dengan kecenderungan pengguna yang suka memberikan rating tinggi pada buku yang sudah dibacanya (yang memiliki rating aktual 8.0 hingga 9.0). Rekomendasi ini bersifat personal dan berpotensi meningkatkan kepuasan pengguna.
  
 ## Evaluation
 
@@ -163,7 +170,7 @@ Pada bagian ini, akan membahas performa model Neural Network (Embedding) yang te
 
 Metrik Evaluasi yang Digunakan: Root Mean Squared Error (RMSE).
 
-Formula: RMSE = $$\text{RMSE} = \sqrt{ \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2 }$$
+Formula: $$\text{RMSE} = \sqrt{ \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2 }$$
 
 
 
