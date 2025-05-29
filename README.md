@@ -107,7 +107,8 @@ Pada bagian ini, menerapkan berbagai teknik data preparation untuk memastikan da
 2. Integritas dan Kualitas Data: Penanganan missing values pada Book-Author, Publisher, dan Age mencegah error pada model dan memastikan bahwa fitur-fitur ini dapat digunakan secara efektif tanpa bias. Median dipilih untuk usia karena robust terhadap outlier.
 3. Fokus pada Preferensi Eksplisit: Penghapusan rating 0 sangat krusial karena model yang dibangun berfokus pada rating eksplisit, yang merupakan indikasi jelas preferensi pengguna. Rating 0 dapat mendistorsi pola preferensi jika tidak dihapus.
 4. Analisis Holistik dan Basis Pemodelan: Penggabungan DataFrame memungkinkan akses data yang komprehensif, yang esensial untuk membangun model Collaborative Filtering yang memerlukan hubungan antara pengguna dan item.
-5. Standardisasi dan Kompatibilitas: Penggantian nama kolom membantu dalam standardisasi penamaan dan keterbacaan kode, serta mempermudah integrasi dengan library machine learning yang mungkin memiliki persyaratan penamaan tertentu.
+5. Standardisasi dan Kompatibilitas Model: Penggantian nama kolom membantu dalam standardisasi penamaan dan keterbacaan kode, serta mempermudah integrasi dengan library machine learning yang mungkin memiliki persyaratan penamaan tertentu. Encoding ID pengguna dan buku serta konversi tipe data rating ke float32 secara khusus mempersiapkan data untuk input lapisan embedding pada arsitektur model deep learning yang digunakan.
+6. Pembagian data menjadi set pelatihan dan validasi : Memungkinkan evaluasi performa model yang tidak bias pada data yang belum pernah dilihat sebelumnya, sehingga dapat mengukur kemampuan generalisasi model.
 
 ## Modeling and Result
 
