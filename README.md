@@ -97,6 +97,9 @@ Pada bagian ini, menerapkan berbagai teknik data preparation untuk memastikan da
 3. Penanganan Rating 0 di df_ratings (Filtering Rating Implisit): Semua rating yang bernilai 0 dihapus dari dataset, menghasilkan df_ratings_explicit. Jumlah rating berkurang dari 1.149.780 menjadi 433.671 setelah filter.
 4. Penggabungan DataFrame: df_ratings_explicit digabungkan dengan df_books berdasarkan ISBN, dan hasilnya kemudian digabungkan dengan df_users berdasarkan User-ID, menghasilkan final_df dengan 383.837 entri.
 5. Mengganti Nama Kolom untuk Konsistensi: Kolom User-ID, ISBN, dan Book-Rating di final_df diganti namanya menjadi user_id, item_id, dan rating.
+6. Encoding ID Pengguna dan Buku: ID pengguna (user_id) dan ID buku (item_id) yang awalnya merupakan objek unik di-encode menjadi representasi integer berurutan. Ini dilakukan dengan membuat pemetaan dari ID asli ke indeks numerik (user_to_idx, book_to_idx) dan sebaliknya (idx_to_user, idx_to_book). Kolom baru user_encoded dan book_encoded ditambahkan ke final_df.
+7. Konversi Tipe Data Kolom 'rating': Kolom rating diubah tipenya menjadi float32 untuk kompatibilitas dengan model deep learning yang akan digunakan.
+8. Pembagian Dataset: Data dibagi menjadi set pelatihan (X_train, y_train) dan set validasi (X_val, y_val) menggunakan fungsi train_test_split dari scikit-learn. Sebanyak 20% dari data dialokasikan untuk set validasi (test_size=0.2), dengan random_state=42 untuk memastikan reproduktibilitas pembagian data. Fitur (X) terdiri dari kolom user_encoded dan book_encoded, sedangkan target (y) adalah kolom rating.
 
 **Alasan Tahapan Data Preparation Dilakukan**
 
@@ -110,28 +113,24 @@ Pada bagian ini, menerapkan berbagai teknik data preparation untuk memastikan da
 
 Pada tahap ini, membangun sistem rekomendasi menggunakan pendekatan Collaborative Filtering dengan implementasi Neural Network (Embedding) dan akan menyajikan top-N recommendation sebagai output.
 
-1. Data Encoding dan Pembagian Dataset
-
-Sebelum membangun model, kami melakukan encoding pada ID pengguna (user_id) dan ID buku (item_id) ke dalam bentuk numerik yang berurutan. Ini diperlukan karena model Neural Network dengan embedding layer memerlukan input ID yang terindeks. Setelah itu, dataset dibagi menjadi training set (307.069 sampel) dan validation set (76.768 sampel) untuk melatih dan mengevaluasi model secara objektif.
-
-2. Model Collaborative Filtering: Neural Network (Embedding)
+1. Model Collaborative Filtering: Neural Network (Embedding)
 
 Kami membangun model Collaborative Filtering menggunakan arsitektur neural network sederhana dengan embedding layer. Model ini mempelajari representasi (embedding) untuk setiap pengguna dan buku, kemudian menggunakan dot product dari embedding ini untuk memprediksi rating.
 
-3. Kelebihan Pendekatan Neural Network (Embedding):
+2. Kelebihan Pendekatan Neural Network (Embedding):
 
 Mampu Menangkap Pola Preferensi Kompleks: Model neural network dengan embedding dapat mempelajari representasi laten pengguna dan item yang menangkap hubungan non-linear dan kompleks dari data rating, yang mungkin tidak dapat ditangkap oleh metode linear.
 Fleksibilitas dan Ekstensibilitas: Arsitektur neural network sangat fleksibel, memungkinkan penambahan fitur-fitur lain (misalnya, metadata buku seperti genre atau deskripsi, informasi demografi pengguna) di masa depan untuk membangun model hybrid yang lebih canggih.
 Skalabilitas yang Baik: Dengan embedding, representasi pengguna dan item disimpan dalam vektor padat, yang lebih efisien secara memori dan komputasi dibandingkan dengan matriks rating yang sangat sparse pada skala besar.
 
-4. Kekurangan Pendekatan Neural Network (Embedding):
+3. Kekurangan Pendekatan Neural Network (Embedding):
 
 Masalah Cold Start: Sulit memberikan rekomendasi untuk pengguna baru (belum memiliki riwayat rating) atau buku baru (belum di-rating oleh pengguna) karena embedding mereka belum dapat dipelajari dengan baik.
 Membutuhkan Data Interaksi yang Cukup: Untuk mempelajari embedding yang berkualitas, model membutuhkan sejumlah besar interaksi (rating) dari pengguna dan item.
 Komputasi dan Waktu Pelatihan yang Lebih Tinggi: Melatih model neural network (terutama dengan banyak epoch dan embedding yang besar) dapat memakan waktu dan resource komputasi yang signifikan.
 Interpretasi yang Kurang Jelas: Embedding adalah representasi numerik abstrak dan seringkali sulit untuk diinterpretasikan secara langsung.
 
-5. Arsitektur Model:
+4. Arsitektur Model:
 Model ini terdiri dari User Embedding Layer dan Book Embedding Layer yang masing-masing mengubah ID pengguna dan buku menjadi vektor embedding. Vektor ini kemudian digabungkan melalui dot product dan dilewatkan ke output layer untuk memprediksi rating. Model ini dikompilasi dengan optimizer Adam dan fungsi loss Mean Squared Error (MSE), dengan metrik Root Mean Squared Error (RMSE).
 
 Berikut Arsitektur Model yang digunakan:
@@ -155,7 +154,7 @@ Model: "functional"
  
  Non-trainable params: 0 (0.00 B)
 
-6. Hasil Top-N Recommendation
+5. Hasil Top-N Recommendation
 Untuk mendemonstrasikan sistem rekomendasi, kami memilih seorang pengguna secara acak (contoh User-ID: 243360) dan mencari buku-buku yang belum pernah di-rating oleh pengguna tersebut. Model kemudian memprediksi rating untuk buku-buku ini, dan kami menampilkan 10 buku dengan rating prediksi tertinggi sebagai rekomendasi.
 
 ![Visualisasi Metrik Evaluasi](./image/Top-N%20Recommendation.png)
